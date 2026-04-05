@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>IronFleet Fitness | Train with the Best</title>
+    <!-- Bootstrap 5 CSS + Icons + Google Fonts (no downloads, all CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefcf5;
+            scroll-behavior: smooth;
+        }
+        /* custom utility & color overrides */
+        :root {
+            --primary-dark: #0a0e1a;
+            --accent-orange: #ff5e14;
+            --accent-hover: #e04e0a;
+            --soft-gray: #f5f4f0;
+        }
+        .bg-accent {
+            background-color: var(--accent-orange);
+        }
+        .btn-custom {
+            background-color: var(--accent-orange);
+            color: white;
+            border-radius: 40px;
+            padding: 10px 28px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: var(--accent-hover);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 94, 20, 0.3);
+        }
+        .btn-outline-custom {
+            border: 2px solid var(--accent-orange);
+            color: var(--accent-orange);
+            background: transparent;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .btn-outline-custom:hover {
+            background-color: var(--accent-orange);
+            color: white;
+        }
+        .navbar {
+            background-color: rgba(10, 14, 26, 0.96) !important;
+            backdrop-filter: blur(4px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            color: white !important;
+        }
+        .navbar-brand span {
+            color: var(--accent-orange);
+        }
+        .nav-link {
+            color: #eaeef5 !important;
+            font-weight: 500;
+            margin: 0 6px;
+            transition: 0.2s;
+        }
+        .nav-link:hover {
+            color: var(--accent-orange) !important;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #0a0e1a 0%, #141b2b 100%);
+            color: white;
+            padding: 120px 0 100px 0;
+        }
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .hero-sub {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .trainer-card img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--accent-orange);
+            padding: 4px;
+            background: white;
+        }
+        .pricing-card {
+            border-radius: 32px;
+            transition: all 0.25s;
+            border: none;
+            background: white;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+        }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px rgba(0,0,0,0.1);
+        }
+        .price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        .testimonial-card {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .testimonial-card i.bi-quote {
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            opacity: 0.5;
+        }
+        .footer {
+            background: #0a0e1a;
+            color: #adb7c9;
+        }
+        .form-control:focus {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 0.2rem rgba(255, 94, 20, 0.2);
+        }
+        .contact-section {
+            background-color: var(--soft-gray);
+        }
+        .section-header {
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+        .section-header:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-orange);
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-section {
+                padding: 80px 0 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">IRON<span>FLEET</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="#trainers">Trainers</a></li>
+                <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+            <a href="#join-now-modal" class="btn btn-custom" data-bs-toggle="modal">Join Now</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section (Join Now CTA) -->
+<section id="home" class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <h1 class="hero-title">Unleash Your <span style="color:#ff5e14;">Strongest</span> Self</h1>
+                <p class="hero-sub mt-3">Elite coaching, state-of-art facility, and a community that pushes you beyond limits. Start your transformation today.</p>
+                <div class="mt-4 d-flex flex-wrap gap-3">
+                    <a href="#join-now-modal" class="btn btn-custom btn-lg px-4" data-bs-toggle="modal">🔥 Join Now – Free Trial</a>
+                    <a href="#pricing" class="btn btn-outline-light btn-lg px-4">View Plans →</a>
+                </div>
+                <div class="mt-5 d-flex gap-4">
+                    <div><i class="bi bi-trophy-fill" style="color:#ff5e14;"></i> <strong>5+</strong> Award Wins</div>
+                    <div><i class="bi bi-people-fill" style="color:#ff5e14;"></i> <strong>2000+</strong> Active Members</div>
+                    <div><i class="bi bi-calendar-check-fill" style="color:#ff5e14;"></i> <strong>50+</strong> Classes Weekly</div>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <!-- filled hero image (real placeholder but high quality via unsplash but no empty) -->
+                <img src="https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?auto=compress&cs=tinysrgb&w=600" alt="hero fitness training" class="img-fluid rounded-4 shadow-lg" style="max-height: 380px; width: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Plans Section -->
+<section id="pricing" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-header pb-2">Pricing Plans</h2>
+            <p class="text-muted mt-3">Flexible memberships for every goal – no hidden fees.</p>
+        </div>
+        <div class="row g-4">
+            <!-- Basic Plan -->
+            <div class="col-md-4">
+                <div class="pricing-card p-4 h-100 text-center">
+                    <i class="bi bi-person-walking fs-1 text-accent" style="color: #ff5e14;"></i>
+                    <h3 class="mt-3 fw-bold">Starter</h3>
+                    <div class="price">$49<span style="font-size:1rem;">/mo</span></div>
+                    <ul class="list-unstyled mt-4 text-start ps-3">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Gym access (off-peak)</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> 2 group classes / week</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Locker & Wi-Fi</li>
+                        <li><i class="bi bi-x-circle-fill text-secondary me-2"></i> No personal coaching</li>
+                    </ul>
+                    <div class="mt-4"><a href="#join-now-modal" class="btn btn-outline-custom" data-bs-toggle="modal">Get Started</a></div>
+                </div>
+            </div>
+            <!-- Pro Plan -->
+            <div class="col-md-4">
+                <div class="pricing-card p-4 h-100 text-center border-2 shadow" style="border-top: 4px solid #ff5e14;">
+                    <i class="bi bi-star-fill fs-1" style="color: #ff5e14;"></i>
+                    <h3 class="mt-3 fw-bold">Elite Pro</h3>
+                    <div class="price">$89<span style="font-size:1rem;">/mo</span></div>
+                    <ul class="list-unstyled mt-4 text-start ps-3">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> 24/7 full gym access</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Unlimited classes (HIIT, Yoga, Spin)</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> 1 free personal session / month</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Nutrition guide included</li>
+                    </ul>
+                    <div class="mt-4"><a href="#join-now-modal" class="btn btn-custom" data-bs-toggle="modal">Join Elite</a></div>
+                </div>
+            </div>
+            <!-- Unlimited + Trainer -->
+            <div class="col-md-4">
+                <div class="pricing-card p-4 h-100 text-center">
+                    <i class="bi bi-gem fs-1" style="color: #ff5e14;"></i>
+                    <h3 class="mt-3 fw-bold">All Access</h3>
+                    <div class="price">$129<span style="font-size:1rem;">/mo</span></div>
+                    <ul class="list-unstyled mt-4 text-start ps-3">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Everything in Elite Pro</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Weekly 1-on-1 trainer session</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Recovery zone & massage gun</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Custom meal plan</li>
+                    </ul>
+                    <div class="mt-4"><a href="#join-now-modal" class="btn btn-outline-custom" data-bs-toggle="modal">Claim Offer</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trainer Section (filled images & real details) -->
+<section id="trainers" class="py-5 bg-white">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <h2 class="section-header pb-2">Elite Trainers</h2>
+            <p class="text-muted mt-3">World-class coaches with real results</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-4 text-center">
+                <div class="trainer-card">
+                    <img src="https://images.pexels.com/photos/4167179/pexels-photo-4167179.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop" alt="Coach Marcus">
+                    <h4 class="mt-3 fw-bold">Marcus Chen</h4>
+                    <p class="text-accent fw-semibold">Strength & Conditioning</p>
+                    <p class="small px-2">10+ years exp, former olympic trainer, specialist in functional hypertrophy.</p>
+                    <div><i class="bi bi-instagram me-2"></i><i class="bi bi-twitter-x me-2"></i><i class="bi bi-linkedin"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="trainer-card">
+                    <img src="https://images.pexels.com/photos/6454350/pexels-photo-6454350.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop" alt="Coach Sarah">
+                    <h4 class="mt-3 fw-bold">Sarah Velez</h4>
+                    <p class="text-accent fw-semibold">Yoga & Mobility Expert</p>
+                    <p class="small px-2">Certified Vinyasa instructor, helped 500+ clients fix posture & mobility.</p>
+                    <div><i class="bi bi-instagram me-2"></i><i class="bi bi-twitter-x me-2"></i><i class="bi bi-linkedin"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="trainer-card">
+                    <img src="https://images.pexels.com/photos/841134/pexels-photo-841134.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop" alt="Coach David">
+                    <h4 class="mt-3 fw-bold">David Okafor</h4>
+                    <p class="text-accent fw-semibold">HIIT & Athletic Performance</p>
+                    <p class="small px-2">CrossFit Level 4 coach, explosive training specialist, sports rehab background.</p>
+                    <div><i class="bi bi-instagram me-2"></i><i class="bi bi-twitter-x me-2"></i><i class="bi bi-linkedin"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-5" style="background: #faf8f2;">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-header pb-2">Real Members, Real Results</h2>
+            <p class="text-muted mt-3">Over 2000+ success stories and counting</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card h-100">
+                    <i class="bi bi-quote"></i>
+                    <p class="mt-2 fst-italic">“The trainers here changed my life! I dropped 28 lbs in 4 months and feel stronger than ever. The community support is unmatched.”</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Jessica" class="rounded-circle me-3" width="50" height="50">
+                        <div><strong>Jessica M.</strong><br><span class="text-warning">⭐⭐⭐⭐⭐</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card h-100">
+                    <i class="bi bi-quote"></i>
+                    <p class="mt-2 fst-italic">“I used to hate working out until I joined IronFleet. The group classes are energizing, and Marcus really knows his stuff. Worth every penny.”</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ryan" class="rounded-circle me-3" width="50" height="50">
+                        <div><strong>Ryan T.</strong><br><span class="text-warning">⭐⭐⭐⭐⭐</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card h-100">
+                    <i class="bi bi-quote"></i>
+                    <p class="mt-2 fst-italic">“The nutrition advice plus training with David helped me get competition-ready. Flexible hours and modern equipment. Highly recommended!”</p>
+                    <div class="d-flex align-items-center mt-3">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Leah" class="rounded-circle me-3" width="50" height="50">
+                        <div><strong>Leah K.</strong><br><span class="text-warning">⭐⭐⭐⭐⭐</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section id="contact" class="contact-section py-5">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                <h2 class="section-header pb-2">Get in touch</h2>
+                <p class="mt-4 text-secondary">Have questions? Our team is ready to help you start your fitness journey. Fill the form and we’ll reach out within 24h.</p>
+                <ul class="list-unstyled mt-4">
+                    <li class="mb-3"><i class="bi bi-geo-alt-fill text-accent me-2" style="color:#ff5e14;"></i> 1220 Fitness Ave, Downtown, NYC</li>
+                    <li class="mb-3"><i class="bi bi-telephone-fill text-accent me-2" style="color:#ff5e14;"></i> +1 (800) 555-2345</li>
+                    <li class="mb-3"><i class="bi bi-envelope-fill text-accent me-2" style="color:#ff5e14;"></i> hello@ironfleet.com</li>
+                </ul>
+                <div class="mt-4">
+                    <span class="badge bg-accent me-1">#NoPainNoGain</span>
+                    <span class="badge bg-secondary">#IronFleetFamily</span>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-lg rounded-4 p-4">
+                    <form id="contactForm" action="#" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Full Name *</label>
+                                <input type="text" class="form-control" id="fullName" placeholder="John Carter" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email Address *</label>
+                                <input type="email" class="form-control" id="emailAddr" placeholder="john@example.com" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Phone (optional)</label>
+                                <input type="tel" class="form-control" id="phoneNum" placeholder="+1 234 567 890">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Message / Goal *</label>
+                                <textarea class="form-control" rows="4" id="msgContent" placeholder="Tell us about your fitness goals..."></textarea>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-custom w-100 py-2" id="submitContactBtn">Send Message <i class="bi bi-arrow-right-short"></i></button>
+                            </div>
+                            <div id="formFeedback" class="text-center mt-2 small"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer pt-5 pb-4">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-md-4">
+                <h4 class="text-white">IRON<span style="color:#ff5e14;">FLEET</span></h4>
+                <p class="small">Where discipline meets transformation. Join the movement and redefine your limits.</p>
+                <div class="mt-3">
+                    <i class="bi bi-facebook me-3 fs-5"></i>
+                    <i class="bi bi-instagram me-3 fs-5"></i>
+                    <i class="bi bi-youtube fs-5"></i>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h6 class="text-white fw-bold">Explore</h6>
+                <ul class="list-unstyled small">
+                    <li><a href="#home" class="text-decoration-none text-secondary">Home</a></li>
+                    <li><a href="#pricing" class="text-decoration-none text-secondary">Pricing</a></li>
+                    <li><a href="#trainers" class="text-decoration-none text-secondary">Trainers</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h6 class="text-white fw-bold">Support</h6>
+                <ul class="list-unstyled small">
+                    <li><a href="#" class="text-decoration-none text-secondary">FAQ</a></li>
+                    <li><a href="#contact" class="text-decoration-none text-secondary">Contact Us</a></li>
+                    <li><a href="#" class="text-decoration-none text-secondary">Membership Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h6 class="text-white fw-bold">Join Newsletter</h6>
+                <div class="input-group input-group-sm">
+                    <input type="email" class="form-control" placeholder="Email" id="newsEmail">
+                    <button class="btn btn-accent" style="background:#ff5e14; border:none;" id="newsBtn">→</button>
+                </div>
+                <p class="small text-muted mt-2">Get workout tips & offers</p>
+            </div>
+        </div>
+        <hr class="mt-4 bg-secondary">
+        <div class="text-center small pt-2">© 2025 IronFleet Fitness — Built with strength & passion.</div>
+    </div>
+</footer>
+
+<!-- Join Now Modal (Full interactive popup) -->
+<div class="modal fade" id="join-now-modal" tabindex="-1" aria-labelledby="joinModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="joinModalLabel">⚡ Join IronFleet Now</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-2">
+                <p>Fill details and get your <strong class="text-accent">7-day free trial</strong> + exclusive welcome pack.</p>
+                <form id="quickJoinForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="joinName" placeholder="Full Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="joinEmail" placeholder="Email Address" required>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" id="planSelect">
+                            <option value="Starter">Starter Plan - $49/mo</option>
+                            <option value="Elite Pro" selected>Elite Pro - $89/mo (Most popular)</option>
+                            <option value="All Access">All Access - $129/mo</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="termsCheck">
+                        <label class="form-check-label small">I agree to terms & privacy policy</label>
+                    </div>
+                    <button type="submit" class="btn btn-custom w-100">Start Free Trial →</button>
+                    <div id="modalFeedback" class="mt-2 small text-center"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS + custom interactivity (no external download, just CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Contact form handling (simple alert with dummy submission)
+    const contactForm = document.getElementById('contactForm');
+    const feedbackDiv = document.getElementById('formFeedback');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('emailAddr').value.trim();
+        const message = document.getElementById('msgContent').value.trim();
+        if (!name || !email || !message) {
+            feedbackDiv.innerHTML = '<span class="text-danger">⚠️ Please fill all required fields (Name, Email, Message).</span>';
+            return;
+        }
+        if (!email.includes('@') || !email.includes('.')) {
+            feedbackDiv.innerHTML = '<span class="text-danger">📧 Enter a valid email address.</span>';
+            return;
+        }
+        feedbackDiv.innerHTML = '<span class="text-success">✓ Message sent! Our team will contact you soon. 💪</span>';
+        contactForm.reset();
+        setTimeout(() => { feedbackDiv.innerHTML = ''; }, 4000);
+    });
+
+    // Join Now Modal form handling (quick join simulation)
+    const joinModalForm = document.getElementById('quickJoinForm');
+    const modalFeedbackSpan = document.getElementById('modalFeedback');
+    if (joinModalForm) {
+        joinModalForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const jName = document.getElementById('joinName').value.trim();
+            const jEmail = document.getElementById('joinEmail').value.trim();
+            const terms = document.getElementById('termsCheck').checked;
+            const selectedPlan = document.getElementById('planSelect').value;
+            if (!jName || !jEmail) {
+                modalFeedbackSpan.innerHTML = '<span class="text-danger">Name and email required.</span>';
+                return;
+            }
+            if (!terms) {
+                modalFeedbackSpan.innerHTML = '<span class="text-danger">Please accept terms to proceed.</span>';
+                return;
+            }
+            modalFeedbackSpan.innerHTML = `<span class="text-success">✔ Welcome ${jName}! Your free trial for ${selectedPlan} is reserved. Check your email.</span>`;
+            setTimeout(() => {
+                const modalEl = document.getElementById('join-now-modal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if(modalInstance) modalInstance.hide();
+                modalFeedbackSpan.innerHTML = '';
+                joinModalForm.reset();
+            }, 1800);
+        });
+    }
+
+    // Newsletter simple toast/alert (lightweight)
+    const newsBtn = document.getElementById('newsBtn');
+    if(newsBtn) {
+        newsBtn.addEventListener('click', function(){
+            const newsMail = document.getElementById('newsEmail').value;
+            if(newsMail && newsMail.includes('@')) {
+                alert(`📬 Thanks! ${newsMail} subscribed to IronFleet newsletter.`);
+                document.getElementById('newsEmail').value = '';
+            } else {
+                alert('Please enter a valid email address for newsletter.');
+            }
+        });
+    }
+    
+    // Smooth anchor scroll offset for fixed navbar
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === "#" || targetId === "" || targetId === "#join-now-modal") return;
+            const targetElem = document.querySelector(targetId);
+            if (targetElem) {
+                e.preventDefault();
+                const offset = 70;
+                const elementPos = targetElem.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: elementPos - offset, behavior: 'smooth' });
+            }
+        });
+    });
+</script>
+</body>
+</html>
